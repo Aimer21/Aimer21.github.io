@@ -7,4 +7,102 @@
 
 ]]></content>
   </entry>
+  <entry>
+    <title>基于hexo+github pages搭建博客</title>
+    <url>/2021/06/30/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>现在有很多搭建博客的主流框架，hexo就是其中之一。除了hexo和github之外还需要其他大大小小的工具来进行搭建，这里不多说，正文当中都会讲到。这篇文章用于记录我建立该个人博客的过程，同时与大家分享。如果有错误的地方欢迎指正。可以在文章下方或者留言板提出来。</p>
+<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630201749374.png" alt="image-20210630201749374" style="zoom: 25%;" />
+
+<span id="more"></span>
+
+<h1 id="注册github"><a href="#注册github" class="headerlink" title="注册github"></a>注册github</h1><p>打开<a href="https://github.com/" title="Github官网">Github官网</a>进行注册。这里就不赘述，就是正常的注册步骤，不懂也可以百度Github注册步骤。</p>
+<h1 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h1><p>在搭建博客的整个过程都离不开git的使用。所以我们需要安装并学会git的基本操作。打开<a href="https://git-scm.com/" title="git官网">git官网</a>，点击图中的Downloads：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630165138545.png" alt="image-20210630165138545"></p>
+<p>选择自己的操作系统进行下载，如windows：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630165533272.png" alt="image-20210630165533272"></p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630165756310.png" alt="image-20210630165756310"></p>
+<p>选择合适的路径下载下来后就可以双击打开安装了。这里的安装基本可以一路Next，但是建议可以自己更改一下安装路径。如果不会安装或者想了解当中的属性信息，可以自行百度。安装完成之后，可以在桌面鼠标右键看见下图红框内容：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630170433859.png" alt="image-20210630170433859"></p>
+<p>点击Git Bash Here，打开git面板，输入git回车来验证git是否安装成功：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630170756373.png" alt="image-20210630170756373"></p>
+<p>出现以下内容说明安装成功：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630170839446.png" alt="image-20210630170839446"></p>
+<p>在最后说一下，git的复制粘贴并不是ctrl+c和ctrl+v,而是ctrl+insert和shift+insert。这个后面可能会经常用到，在这里提前说明。</p>
+<h1 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h1><p>下载地址：<a href="https://nodejs.org/en/" title="node.js官网">node.js官网</a></p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630172817107.png" alt="image-20210630172817107"></p>
+<p>如上图选择最常用的版本下载就行了，下载完双击打开可以改一下安装路径，其他一路Next就完事了。如果要看详细的安装步骤，也可以百度得到。</p>
+<p>安装成功后，我们需要验证一下是否安装成功。打开cmd（快捷键：windows键+R输入cmd）依次输入：</p>
+<blockquote>
+<p>node -v</p>
+</blockquote>
+<blockquote>
+<p>npm -v</p>
+</blockquote>
+<p>结果显示版本信息即说明安装成功：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630174341679.png" alt="image-20210630174341679"></p>
+<h1 id="设置npm安装全局模块的路径和环境变量"><a href="#设置npm安装全局模块的路径和环境变量" class="headerlink" title="设置npm安装全局模块的路径和环境变量"></a>设置npm安装全局模块的路径和环境变量</h1><p>如果不进行此步骤，安装模块时会默认装到c盘，占用c盘空间，并且可能到时我们后面要安装的hexo不能使用的情况，所以最好设置一下。</p>
+<p>首先打开安装node.js位置，在文件夹中创建两个文件夹：node_cache、node_global，如图：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630175052107.png" alt="image-20210630175052107"></p>
+<p>然后打开cmd，依次输入以下命令：</p>
+<blockquote>
+<p>npm config set cache “D:\node.js\node_cache”  </p>
+<p>npm config set prefix “D:\node.js\node_global”</p>
+<p> #这里的路径要根据自己的来填写，还有要用英文的字符，如果使用中文字符会报错，要注意！</p>
+</blockquote>
+<p>完成后，要配置环境变量：（win10）<strong>打开控制面板–&gt;系统–&gt;高级系统设置–&gt;环境变量</strong>，然后在系统变量中新加一个变量：</p>
+<blockquote>
+<p>变量名： NODE_PATH</p>
+<p>变量值：D:\node.js\node_global\node_modules</p>
+</blockquote>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630180112827.png" alt="image-20210630180112827"></p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630180222240.png" alt="image-20210630180222240"></p>
+<p>接着编辑用户变量里的Path，将相应的npm路径改为：D:\node.js\node_global，如下图：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630180504698.png" alt="image-20210630180504698"></p>
+<p><strong>都完成后记得要一步步点击确定开退出，不能直接关闭！！！</strong></p>
+<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><p>hexo就是个人博客的框架，完成上一步的配置后，我们要通过git去安装hexo。</p>
+<p>首先自己在本地选择位置创建一个新的文件夹hexo，进入hexo文件夹，鼠标右键Git Bash Here，然后在git上输入npm命令安装hexo：</p>
+<blockquote>
+<p>npm install -g hexo-cli</p>
+</blockquote>
+<p>完成后，输入hexo init 初始化博客。</p>
+<p>接着输入hexo g 来生成静态的博客页面：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630183442855.png" alt="image-20210630183442855"></p>
+<p>这是就已经在本地生成了博客，输入hexo s 命令来查看：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630183703042.png" alt="image-20210630183703042"></p>
+<p>在浏览器输入 <a href="http://localhost:4000就可以打开最初始的hexo页面，在git控制台按ctrl+c可以关闭服务器。">http://localhost:4000就可以打开最初始的hexo页面，在git控制台按ctrl+c可以关闭服务器。</a></p>
+<p>然而在只是部署在本地而已，想要让别人也访问到你的博客就必须用到github。</p>
+<h1 id="github创建仓库"><a href="#github创建仓库" class="headerlink" title="github创建仓库"></a>github创建仓库</h1><p>登录自己的github，创建一个仓库，这个仓库是用来存储生成的静态页面的：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630185655667.png" alt="image-20210630185655667"></p>
+<p>点击New后进入该页面：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630190224019.png" alt="image-20210630190224019"></p>
+<p>点击Setting设置：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630190406414.png" alt="image-20210630190406414"></p>
+<p>划到最下面：<img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630190850710.png" alt="image-20210630190850710"></p>
+<p>点击查看Github Pages，出现下图就说明成功：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630191003488.png" alt="image-20210630191003488"></p>
+<h1 id="将hexo部署到github"><a href="#将hexo部署到github" class="headerlink" title="将hexo部署到github"></a>将hexo部署到github</h1><p>创建完仓库就可以返回hexo文件夹进行部署。用记事本的方式打开hexo中的_config.yml（我用的是一个小型的代码编辑器，个人认为会比记事本好用，附上下载地址：<a href="https://notepad-plus.en.softonic.com/" title="notepad++">notepad++</a> ):</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630191500618.png" alt="image-20210630191500618"></p>
+<p>打开后划到最底部，填写以下内容：</p>
+<blockquote>
+<p>deploy:<br>  type: git<br>  repository: <a href="https://github.com/Aimer21/Aimer21.github.io.git">https://github.com/Aimer21/Aimer21.github.io.git</a><br>  branch: main</p>
+</blockquote>
+<p>注意空格：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630195026589.png" alt="image-20210630195026589"></p>
+<p>repository如图：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ehexo+github%20pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/image-20210630195309757.png" alt="image-20210630195309757"></p>
+<p>这里提下关于github的branch，以前github的默认branch名称是master，但是受种族歧视的影响，现在是改为默认为main。我在搭建博客的时候填的是master，踩坑好久才出来，所以说要记住现在的github的branch默认为main！！！！</p>
+<p>填写完之后保存回到hexo文件夹，右键Git Bash Here，安装git部署插件，输入以下命令：</p>
+<blockquote>
+<p>npm install hexo-deployer-git –save</p>
+</blockquote>
+<p>然后就可以部署了，输入以下三条命令：</p>
+<blockquote>
+<p>hexo clean   #清除缓存文件db.json和已生成的静态文件public</p>
+<p>hexo g   #生成静态文件默认到hexo的public文件夹（hexo generate的缩写）</p>
+<p>hexo d   #将静态文件部署到设定的仓库（hexo deployer的缩写）</p>
+</blockquote>
+<p>完成以后，就可以输入<a href="https://xxx.github.io来访问!xxx是你github的用户名.到此你的博客就可以被别人访问到了,最原始的博客也算搭建完成了!但是这只是开始,你想拥有属于你自己的私人博客,就必须对其进行优化!/">https://xxx.github.io来访问！xxx是你github的用户名。到此你的博客就可以被别人访问到了，最原始的博客也算搭建完成了！但是这只是开始，你想拥有属于你自己的私人博客，就必须对其进行优化！</a></p>
+<p>路漫漫其修远兮，吾将上写而求索。加油共勉！</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
 </search>
