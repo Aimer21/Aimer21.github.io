@@ -108,7 +108,7 @@
   </entry>
   <entry>
     <title>MySQL学习</title>
-    <url>/MySQL/</url>
+    <url>/MySQL%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习记录</p>
 <img src="/images/MySQL/image-20210715203717568.png" alt="image-20210715203717568" style="zoom:25%;" />
 
@@ -464,11 +464,5 @@
       <tags>
         <tag>mysql</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>草稿测试</title>
-    <url>/%E8%8D%89%E7%A8%BF%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<p><img src="../images/%E8%8D%89%E7%A8%BF%E6%B5%8B%E8%AF%95/image-20210715225922219.png" alt="image-20210715225922219"></p>
-]]></content>
   </entry>
 </search>
