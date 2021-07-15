@@ -148,7 +148,7 @@
 <li><p>as (字段重命名，省略也可以)</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno (as) no from dept;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="../../../mysql%E6%88%AA%E5%9B%BE/1.png"></p>
+<p><img src="../images/MySQL%E5%9F%BA%E6%9C%AC%E5%AD%A6%E4%B9%A0/1.png" alt="1"></p>
 <h3 id="4-2条件查询"><a href="#4-2条件查询" class="headerlink" title="4.2条件查询"></a>4.2条件查询</h3><ul>
 <li><p>between and（&gt;= and &lt;=）</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename from emp where sal &gt;= 1100 and sal &lt;= 3000;</span><br></pre></td></tr></table></figure>
