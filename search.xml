@@ -107,6 +107,196 @@
       </tags>
   </entry>
   <entry>
+    <title>SQL语句练习</title>
+    <url>/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="SQL语句练习"><a href="#SQL语句练习" class="headerlink" title="SQL语句练习"></a>SQL语句练习</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>重点是思路要清晰，不用考虑问题的合理性还有语句的复杂程度。主要锻炼思维逻辑！</p>
+<img src="../images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716160531561.png" alt="image-20210716160531561" style="zoom:25%;" />
+
+<span id="more"></span>
+
+<p>脚本链接：<a href="https://pan.baidu.com/s/1wkT_oHur70feJ8-JUmFT3w">https://pan.baidu.com/s/1wkT_oHur70feJ8-JUmFT3w</a> 提取码：0717 </p>
+<p><strong>1、求每个部门最高薪资的员工名字</strong></p>
+<p>第一步：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno,max(sal) from emp group by deptno;//group by只能查询分组字段和使用分组函数的字段，所以不能直接查询ename字段</span><br></pre></td></tr></table></figure>
+
+<p>第二步：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select t.*,e.ename from emp e join (select deptno,max(sal) as maxsal from emp group by deptno) as t on e.sal = t.maxsal and e.deptno = t.deptno;//将select语句当做临时表t与emp表连接,查出结果</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2、哪些人的薪水在部门的平均薪水之上</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename, e.sal, t.* from emp e join (select deptno, avg(sal) as avgsal from emp group by deptno) as t on e.deptno = t.deptno and e.sal &gt; t.avgsal;</span><br><span class="line">//join on 后面还可以加where，结构清晰</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>3、取得部门中（所有人的）平均的薪水等级</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.deptno, avg(s.grade) as avggrade from emp e join salgrade s on e.sal between losal and hisal group by e.deptno;   </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>4、不用Max( )函数，取得最高薪水（两种）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 1;//降序排序，然后取第一条</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, sal from emp where sal not in (select distinct e1.sal from emp e1 join emp e2 on e1.sal &lt; e2.sal);//锻炼自连接的思路</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>5、取平均薪水最高的部门的编号(两种)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno, avg(sal) as avgsal from emp group by deptno order by avgsal desc limit 1; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno, avg(sal) as avgsal from emp group by deptno having avgsal = (select max(avgsal) from (select deptno, avg(sal) as avgsal from emp group by deptno) as t);//max()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>6、取得平均薪水最高的部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select d.dname, e.deptno, avg(sal) as avgsal from emp e join dept d on e.deptno = d.deptno group by dname order by avgsal desc limit 1; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>7、求平均薪水的等级最低的部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 	t2.dname from 	(select d.dname, t.*, s.grade from (select deptno, avg(sal) as avgsal from emp group by deptno) as t join salgrade s on avgsal between losal and hisal join dept d on t.deptno = d.deptno) as t2 where 	grade = (select min(t1.grade) from     (select t.*, s.grade from (select deptno, avg(sal) as avgsal from emp group by deptno) as t join salgrade s on avgsal between losal and hisal) as t1);//可优化，重点是思路要清晰</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>8、取得比普通员工(员工代码没有在mgr字段上出现的)的最高薪水还要高的领导人姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename,sal from emp where sal &gt; (select max(sal) from emp where empno not in (select mgr from emp where mgr is not null));//not in 使用时要注意排除null</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>9、取得薪水最高的前五名员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 5; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>10、去薪水排名6-10的员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 5, 5; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>11、去最后入职的5名员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename from emp order by hiredate desc limit 5;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>12、 取每个薪水等级的员工数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select t.grade, count(*) from (select e.ename, e.sal, s.grade from emp e join salgrade s on e.sal between losal and hisal) as t group by grade order by grade;  </span><br></pre></td></tr></table></figure>
+
+
+
+<p>13、<strong>（面试题）</strong></p>
+<p><img src="../images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716164706374.png" alt="image-20210716164706374"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select sname from s where sno = (select sno from sc where cno = (select cno from c where cteacher ！= &#x27;黎明&#x27;)); </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select s.sname,avg(sc.scgrade) from s join sc on s.sno = sc.sno where sno = (select sno from sc group by sno having count(scgrade &lt; 60) &gt;= 2); </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select s.sname from sc join s on s.sno = sc.sno where sno = (select sno from sc where cno = 1) and cno = 2;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>14、列出所有员工以及领导的姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e1.ename &#x27;员工&#x27;, e2.ename &#x27;领导&#x27; from emp e1 left join emp e2 on e1.mgr = e2.empno; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>15、列出受雇日期早于其直接上级的所有员工的编号，姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e1.ename &#x27;员工&#x27;, e1.hiredate, e2.ename &#x27;领导&#x27;, e2.hiredate, d.dname from emp e1 join emp e2 on e1.mgr = e2.empno join dept d on e1.deptno = d.deptno where e1.hiredate &lt; e2.hiredate;  </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>16、列出部门名称和这些部门的员工信息，同时列出那些没有员工的部门</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select d.dname, e.* from emp e right join dept d on e.deptno = d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>17、列出至少有5个员工的部门</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno from emp group by deptno having count(*) &gt;= 5; //where后面不能用分组函数</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>18、列出薪资比smith多的员工信息</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from emp where sal &gt; (select sal from emp where ename = &#x27;smith&#x27;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>19、列出所有“clerk”的姓名及其部门名称和人数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select t1. *, t2.deptcount from (select e.ename, e.job, d.dname, d.deptno from emp e join dept d on e.deptno = d.deptno where e.job = &#x27;CLERK&#x27;) t1 join (select deptno, count(*) as deptcount from emp group by deptno) t2 on t1.deptno = t2.deptno;//两张临时表连接</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>20、列出最低薪金大于1500 的各种工作及从事此工作的全部雇员人数.</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select job, count(*) from emp group by job having min(sal) &gt; 1500;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>21、列出薪金高于公司平均薪金的所有员工，所在部门，上级领导，以及工资等级</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename &#x27;员工&#x27;, d.dname, l.ename &#x27;领导&#x27;, s.grade from emp e join dept d on e.deptno = d.deptno left join emp l on e.mgr = l.empno join salgrade s on e.sal between losal and hisal where e.sal &gt; (select avg(sal) from emp);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>22、列出与“scott”从事相同工作的所有员工及部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename, d.dname from emp e join dept d on e.deptno = d.deptno where e.job = (select job from emp where ename = &#x27;scott&#x27;) and e.ename != &#x27;scott&#x27;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>23、列出薪金等于部门30中员工的薪金的其他员工的姓名和薪金，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, sal from emp where deptno != 30 and sal in (select distinct sal from emp where deptno = 30); </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>24、列出薪金高于在部门30工作的所有员工的薪金的员工姓名和薪金,部门名称，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename, e.sal, d.dname from emp e join dept d on e.deptno = d.deptno where e.sal &gt; (select max(sal) from emp where deptno = 30);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>25、列出在每个部门工作的员工数量，平均工资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select d.deptno, count(ename), ifnull(avg(sal),0) from dept d left join emp e on d.deptno = e.deptno group by deptno; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>26、列出所有员工的姓名、部门名称和工资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename, d.dname, sal from emp e join dept d on e.deptno = d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>27、列出所有部门的详细信息和人数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select d.*, count(e.ename) from emp e right join dept d on e.deptno = d.deptno group by d.deptno,d.dname,d.loc; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>28、列出各种工作的最低工资及从事此工作的员工姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select t.job, t.minsal,e.ename from emp e join (select job,min(sal) minsal from emp group by job) t on e.job = t.job and e.sal = t.minsal; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>29、列出各个部门的manager的最低薪资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select deptno, min(sal) from emp where job = &#x27;manager&#x27; group by deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>30、列出所有员工的年工资，按年薪从低到高排序</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ename, (sal + ifnull(comm, 0)) * 12 as yearsal from emp order by sal;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>31、求出员工领导的薪水超过3000的员工名称与领导名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select e.ename, l.ename from emp e join emp l on e.mgr = l.empno where l.sal &gt; 3000;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>32、求出部门名称中带’S’字符的部门员工的工资合计、部门人数，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select d.deptno, ifnull(sum(e.sal), 0), count(e.empno) from emp e right join dept d on e.deptno = d.deptno where d.dname like &#x27;%s%&#x27; group by d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL学习</title>
     <url>/MySQL%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习记录</p>
@@ -195,7 +385,7 @@
 <p><strong><span style="color:red">分组函数不能直接使用在where子句中（group by 在where后执行）</span></strong></p>
 <p>count(*):总记录条数</p>
 <p>count(具体某个字段)：忽略null的记录条数</p>
-<p>所有数据库中，只要有null参与数据运算，运算结果一定是null。（<strong style="color:red;">分组函数自动忽略null</strong>）</p>
+<p>所有数据库中，只要有null参与数据运算，运算结果一定是null。（<strong style="color:red;">分组函数自动忽略null，但是如果只有一个字段值参与且 字段为null的话，还是会得到为null的结果</strong>）</p>
 <p>可以用ifnull()空处理函数。 </p>
 <p>ifnull(需要处理的字段，替换null的值)</p>
 <p><img src="/images/MySQL/image-20210711200621372.png" alt="image-20210711200621372"></p>
@@ -461,6 +651,9 @@
 </ul>
 <h2 id="11、参考"><a href="#11、参考" class="headerlink" title="11、参考"></a>11、参考</h2><p><a href="https://www.bilibili.com/video/BV1fx411X7BD">https://www.bilibili.com/video/BV1fx411X7BD</a></p>
 ]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
       <tags>
         <tag>mysql</tag>
       </tags>

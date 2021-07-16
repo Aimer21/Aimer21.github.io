@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/%E5%94%AF32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/%E5%94%AF16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"aimer21.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SQL语句练习前言重点是思路要清晰，不用考虑问题的合理性还有语句的复杂程度。主要锻炼思维逻辑！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL语句练习">
+<meta property="og:url" content="https://aimer21.top/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="呆唯的blog">
+<meta property="og:description" content="SQL语句练习前言重点是思路要清晰，不用考虑问题的合理性还有语句的复杂程度。主要锻炼思维逻辑！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aimer21.top/images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716160531561.png">
+<meta property="og:image" content="https://aimer21.top/images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716164706374.png">
+<meta property="article:published_time" content="2021-07-16T02:07:44.000Z">
+<meta property="article:modified_time" content="2021-07-16T13:09:42.242Z">
+<meta property="article:author" content="呆唯">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aimer21.top/images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716160531561.png">
+
+<link rel="canonical" href="https://aimer21.top/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : `false`,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SQL语句练习 | 呆唯的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">呆唯的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://aimer21.top/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%91%86%E5%94%AF.jpg">
+      <meta itemprop="name" content="呆唯">
+      <meta itemprop="description" content="个人学习生活记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="呆唯的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL语句练习
+        </h1>
+
+        <div class="post-meta">
+		
+		  
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-16 10:07:44 / 修改时间：21:09:42" itemprop="dateCreated datePublished" datetime="2021-07-16T10:07:44+08:00">2021-07-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="评论数" href="/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="SQL语句练习"><a href="#SQL语句练习" class="headerlink" title="SQL语句练习"></a>SQL语句练习</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>重点是思路要清晰，不用考虑问题的合理性还有语句的复杂程度。主要锻炼思维逻辑！</p>
+<img src="../images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716160531561.png" alt="image-20210716160531561" style="zoom:25%;" />
+
+<span id="more"></span>
+
+<p>脚本链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1wkT_oHur70feJ8-JUmFT3w">https://pan.baidu.com/s/1wkT_oHur70feJ8-JUmFT3w</a> 提取码：0717 </p>
+<p><strong>1、求每个部门最高薪资的员工名字</strong></p>
+<p>第一步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select deptno,max(sal) from emp group by deptno;//group by只能查询分组字段和使用分组函数的字段，所以不能直接查询ename字段</span><br></pre></td></tr></table></figure>
+
+<p>第二步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select t.*,e.ename from emp e join (select deptno,max(sal) as maxsal from emp group by deptno) as t on e.sal = t.maxsal and e.deptno = t.deptno;//将select语句当做临时表t与emp表连接,查出结果</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2、哪些人的薪水在部门的平均薪水之上</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, e.sal, t.* from emp e join (select deptno, avg(sal) as avgsal from emp group by deptno) as t on e.deptno = t.deptno and e.sal &gt; t.avgsal;</span><br><span class="line">//join on 后面还可以加where，结构清晰</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>3、取得部门中（所有人的）平均的薪水等级</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.deptno, avg(s.grade) as avggrade from emp e join salgrade s on e.sal between losal and hisal group by e.deptno;   </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>4、不用Max( )函数，取得最高薪水（两种）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 1;//降序排序，然后取第一条</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, sal from emp where sal not in (select distinct e1.sal from emp e1 join emp e2 on e1.sal &lt; e2.sal);//锻炼自连接的思路</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>5、取平均薪水最高的部门的编号(两种)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select deptno, avg(sal) as avgsal from emp group by deptno order by avgsal desc limit 1; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select deptno, avg(sal) as avgsal from emp group by deptno having avgsal = (select max(avgsal) from (select deptno, avg(sal) as avgsal from emp group by deptno) as t);//max()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>6、取得平均薪水最高的部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.dname, e.deptno, avg(sal) as avgsal from emp e join dept d on e.deptno = d.deptno group by dname order by avgsal desc limit 1; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>7、求平均薪水的等级最低的部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 	t2.dname from 	(select d.dname, t.*, s.grade from (select deptno, avg(sal) as avgsal from emp group by deptno) as t join salgrade s on avgsal between losal and hisal join dept d on t.deptno = d.deptno) as t2 where 	grade = (select min(t1.grade) from     (select t.*, s.grade from (select deptno, avg(sal) as avgsal from emp group by deptno) as t join salgrade s on avgsal between losal and hisal) as t1);//可优化，重点是思路要清晰</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>8、取得比普通员工(员工代码没有在mgr字段上出现的)的最高薪水还要高的领导人姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename,sal from emp where sal &gt; (select max(sal) from emp where empno not in (select mgr from emp where mgr is not null));//not in 使用时要注意排除null</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>9、取得薪水最高的前五名员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 5; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>10、去薪水排名6-10的员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, sal from emp order by sal desc limit 5, 5; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>11、去最后入职的5名员工</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename from emp order by hiredate desc limit 5;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>12、 取每个薪水等级的员工数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select t.grade, count(*) from (select e.ename, e.sal, s.grade from emp e join salgrade s on e.sal between losal and hisal) as t group by grade order by grade;  </span><br></pre></td></tr></table></figure>
+
+
+
+<p>13、<strong>（面试题）</strong></p>
+<p><img src="../images/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/image-20210716164706374.png" alt="image-20210716164706374"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sname from s where sno = (select sno from sc where cno = (select cno from c where cteacher ！= &#x27;黎明&#x27;)); </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select s.sname,avg(sc.scgrade) from s join sc on s.sno = sc.sno where sno = (select sno from sc group by sno having count(scgrade &lt; 60) &gt;= 2); </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select s.sname from sc join s on s.sno = sc.sno where sno = (select sno from sc where cno = 1) and cno = 2;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>14、列出所有员工以及领导的姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e1.ename &#x27;员工&#x27;, e2.ename &#x27;领导&#x27; from emp e1 left join emp e2 on e1.mgr = e2.empno; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>15、列出受雇日期早于其直接上级的所有员工的编号，姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e1.ename &#x27;员工&#x27;, e1.hiredate, e2.ename &#x27;领导&#x27;, e2.hiredate, d.dname from emp e1 join emp e2 on e1.mgr = e2.empno join dept d on e1.deptno = d.deptno where e1.hiredate &lt; e2.hiredate;  </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>16、列出部门名称和这些部门的员工信息，同时列出那些没有员工的部门</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.dname, e.* from emp e right join dept d on e.deptno = d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>17、列出至少有5个员工的部门</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select deptno from emp group by deptno having count(*) &gt;= 5; //where后面不能用分组函数</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>18、列出薪资比smith多的员工信息</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where sal &gt; (select sal from emp where ename = &#x27;smith&#x27;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>19、列出所有“clerk”的姓名及其部门名称和人数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select t1. *, t2.deptcount from (select e.ename, e.job, d.dname, d.deptno from emp e join dept d on e.deptno = d.deptno where e.job = &#x27;CLERK&#x27;) t1 join (select deptno, count(*) as deptcount from emp group by deptno) t2 on t1.deptno = t2.deptno;//两张临时表连接</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>20、列出最低薪金大于1500 的各种工作及从事此工作的全部雇员人数.</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select job, count(*) from emp group by job having min(sal) &gt; 1500;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>21、列出薪金高于公司平均薪金的所有员工，所在部门，上级领导，以及工资等级</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename &#x27;员工&#x27;, d.dname, l.ename &#x27;领导&#x27;, s.grade from emp e join dept d on e.deptno = d.deptno left join emp l on e.mgr = l.empno join salgrade s on e.sal between losal and hisal where e.sal &gt; (select avg(sal) from emp);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>22、列出与“scott”从事相同工作的所有员工及部门名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, d.dname from emp e join dept d on e.deptno = d.deptno where e.job = (select job from emp where ename = &#x27;scott&#x27;) and e.ename != &#x27;scott&#x27;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>23、列出薪金等于部门30中员工的薪金的其他员工的姓名和薪金，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, sal from emp where deptno != 30 and sal in (select distinct sal from emp where deptno = 30); </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>24、列出薪金高于在部门30工作的所有员工的薪金的员工姓名和薪金,部门名称，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, e.sal, d.dname from emp e join dept d on e.deptno = d.deptno where e.sal &gt; (select max(sal) from emp where deptno = 30);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>25、列出在每个部门工作的员工数量，平均工资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.deptno, count(ename), ifnull(avg(sal),0) from dept d left join emp e on d.deptno = e.deptno group by deptno; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>26、列出所有员工的姓名、部门名称和工资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, d.dname, sal from emp e join dept d on e.deptno = d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>27、列出所有部门的详细信息和人数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.*, count(e.ename) from emp e right join dept d on e.deptno = d.deptno group by d.deptno,d.dname,d.loc; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>28、列出各种工作的最低工资及从事此工作的员工姓名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select t.job, t.minsal,e.ename from emp e join (select job,min(sal) minsal from emp group by job) t on e.job = t.job and e.sal = t.minsal; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>29、列出各个部门的manager的最低薪资</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select deptno, min(sal) from emp where job = &#x27;manager&#x27; group by deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>30、列出所有员工的年工资，按年薪从低到高排序</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename, (sal + ifnull(comm, 0)) * 12 as yearsal from emp order by sal;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>31、求出员工领导的薪水超过3000的员工名称与领导名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, l.ename from emp e join emp l on e.mgr = l.empno where l.sal &gt; 3000;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>32、求出部门名称中带’S’字符的部门员工的工资合计、部门人数，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.deptno, ifnull(sum(e.sal), 0), count(e.empno) from emp e right join dept d on e.deptno = d.deptno where d.dname like &#x27;%s%&#x27; group by d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>呆唯
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aimer21.top/SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/" title="SQL语句练习">https://aimer21.top/SQL语句练习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+   <a href="/tags/mysql/" rel="tag"> <i class="fa fa-tag"></i> mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/MySQL%E5%AD%A6%E4%B9%A0/" rel="prev" title="MySQL学习">
+      <i class="fa fa-chevron-left"></i> MySQL学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">SQL语句练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="呆唯"
+      src="/images/%E5%91%86%E5%94%AF.jpg">
+  <p class="site-author-name" itemprop="name">呆唯</p>
+  <div class="site-description" itemprop="description">个人学习生活记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">呆唯</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">14k</span>
+</div>
+
+<script async src=“//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js”></script>
+
+        <!-- 不蒜子统计 -->
+		
+		<span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+		
+        <span id="busuanzi_container_site_pv">
+                总访问量：<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                总访客量：<span id="busuanzi_value_site_uv"></span>人
+        </span>
+  <div id="site-runtime">
+  <span class="post-meta-item-icon">
+    <i class="fa fa-clock"></i>
+  </span>
+  <span id="runtime"></span>
+</div>
+
+<script language="javascript">
+  function isPC() {
+    var userAgentInfo = navigator.userAgent;
+    var agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+    for (var i = 0; i < agents.length; i++) {
+      if (userAgentInfo.indexOf(agents[i]) > 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function siteTime(openOnPC, start) {
+    window.setTimeout("siteTime(openOnPC, start)", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+      start = new Date("2021-06-27 09:00:00 +0800");
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var date = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    var diff = now - start;
+
+    var diffYears = Math.floor(diff / years);
+    var diffDays = Math.floor((diff / days) - diffYears * 365);
+    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+
+    if (openOnPC) {
+      document.getElementById("runtime").innerHTML = "本站运行时间: " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    } else {
+      document.getElementById("runtime").innerHTML = "本站运行时间: " + diffYears + "y " + diffDays + "d " + diffHours + "h " + diffMinutes + "m " + diffSeconds + "s";
+    }
+  }
+
+  var showOnMobile = false;
+  var openOnPC = isPC();
+  var start = new Date();
+  siteTime(openOnPC, start);
+
+  if (!openOnPC && !showOnMobile) {
+    document.getElementById('site-runtime').style.display = 'none';
+  }
+</script>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'Mu54hijc8Fq4mKynqDFY52IC-gzGzoHsz',
+      appKey     : '7qe2DnKIlJ42gvviiKgVxhJD',
+      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>	
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+
+</body>
+</html>
